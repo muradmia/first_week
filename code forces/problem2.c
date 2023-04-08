@@ -1,28 +1,15 @@
 #include<stdio.h>
 int main(){
 
-    int a , b ,c;
-    scanf("%d %d %d",&a,&b,&c);
-    int max = 0 ,min = 0;
+    int a, b;
+    scanf("%d %d",&a,&b);
 
-    if(a > b && a > c){
-        max = a;
-    }else if(b > a && b > c){
-        max = b;
+    if(a % b == 0 || b % a == 0){
+        printf("Multiples");
     }else{
-        max = c;
+        printf("No Multiples");
     }
 
-    if(a < b && a < c){
-        min = a;
-    }else if(b < a && b < c){
-        min = b;
-    }else{
-        min = c;
-    }
-
-    printf("%d\n",max);
-    printf("%d",min);
 
     return 0;
 }
