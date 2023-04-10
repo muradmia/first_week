@@ -4,7 +4,7 @@
 int main(){
 
     char s[10];
-    scanf("%s",s);
+    gets(s);
 
     printf("Hello, %s",s);
     return 0;
