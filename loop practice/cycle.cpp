@@ -1,72 +1,70 @@
 #include <bits/stdc++.h>
 using namespace std;
-int parent[1000];
-int parentRank[1000];
-
+const int N = 1e5 + 3;
+int parent[N];
+int parent_size[N];
 void dsu_set(int n)
 {
-    for (int i = 1; i <= n; i++)
+    for (int i=1; i<=n ; i++)
     {
-        parent[i] = i;
-        parentRank[i] = 0; // Initialize parentRank as 0
+        parent[i]=-1;
+        parent_size[i]=0;
     }
 }
-
-int dsu_find(int node)
+int dsu_find (int node)
 {
-    if (parent[node] != node)
+    while(parent[node] != -1)
     {
-        parent[node] = dsu_find(parent[node]); // Path compression
+        node = parent[node];
     }
-    return parent[node];
+    return node;
 }
 
 void dsu_union(int a, int b)
 {
     int leaderA = dsu_find(a);
     int leaderB = dsu_find(b);
-
-    if (leaderA != leaderB)
+    if(leaderA != leaderB)
     {
-        if (parentRank[leaderA] > parentRank[leaderB])
+        if(parent_size[leaderA] > parent_size[leaderB])
         {
+            parent[leaderB]= leaderA;
+
+        }
+        else if(parent_size[leaderA]< parent_size[leaderB])
+        {
+            parent[leaderA]= leaderB;
+        }
+        else{
             parent[leaderB] = leaderA;
+            parent_size[leaderA]++;
         }
-        else if (parentRank[leaderA] < parentRank[leaderB])
-        {
-            parent[leaderA] = leaderB;
-        }
-        else
-        {
-            parent[leaderB] = leaderA;
-            parentRank[leaderA]++; // Increment parentRank of the new leader
-        }
+
     }
 }
+
 
 int main()
 {
     int n, m;
     cin >> n >> m;
+    int cnt = 0;
     dsu_set(n);
-
     while (m--)
     {
         int a, b;
         cin >> a >> b;
         int leaderA = dsu_find(a);
         int leaderB = dsu_find(b);
-        if(leaderA== leaderB)
+        if (leaderA == leaderB)
         {
-            cout<<"Negative cycle detected between ("<<a<<","<<b<<")"<<endl;
+            cnt++;
         }
         else
-        { 
-            dsu_union(a,b);
+        {
+            dsu_union(a, b);
         }
     }
-
-
-
+    cout << cnt << endl;
     return 0;
 }
